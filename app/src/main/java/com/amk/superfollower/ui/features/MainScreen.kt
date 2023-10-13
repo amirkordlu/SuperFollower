@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.amk.superfollower.model.data.ItemsListResponse
 import com.amk.superfollower.ui.theme.SuperFollowerTheme
+import com.amk.superfollower.ui.theme.Typography
 import com.amk.superfollower.ui.theme.Yellow
 import dev.burnoo.cokoin.navigation.getNavViewModel
 
