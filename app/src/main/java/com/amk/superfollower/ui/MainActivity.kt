@@ -1,6 +1,7 @@
 package com.amk.superfollower.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +13,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.amk.superfollower.di.myModules
-import com.amk.superfollower.ui.features.MainScreen
+import com.amk.superfollower.ui.features.loginScreen.LoginScreen
+import com.amk.superfollower.ui.features.mainScreen.MainScreen
 import com.amk.superfollower.ui.theme.SuperFollowerTheme
 import com.amk.superfollower.util.MyScreens
 import dev.burnoo.cokoin.Koin
@@ -46,6 +48,10 @@ fun SuperFollowerUI() {
 
         composable(MyScreens.MainScreen.route) {
             MainScreen()
+        }
+
+        composable(MyScreens.LoginScreen.route) {
+            LoginScreen()
         }
 
     }

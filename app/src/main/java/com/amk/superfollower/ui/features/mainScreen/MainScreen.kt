@@ -1,8 +1,6 @@
-package com.amk.superfollower.ui.features
+package com.amk.superfollower.ui.features.mainScreen
 
-import android.annotation.SuppressLint
 import android.util.Log
-import android.widget.Toolbar
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -17,12 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,13 +39,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.amk.superfollower.R
 import com.amk.superfollower.model.data.ItemsListResponse
 import com.amk.superfollower.ui.theme.SuperFollowerTheme
 import com.amk.superfollower.ui.theme.Typography
 import com.amk.superfollower.ui.theme.Yellow
+import com.amk.superfollower.util.MyScreens
 import com.amk.superfollower.util.items
+import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.navigation.getNavViewModel
 
 @Preview(showBackground = true)
@@ -60,7 +56,7 @@ fun MainScreenPreview() {
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
-            MainToolbar()
+            MainScreen()
         }
     }
 }
@@ -69,6 +65,8 @@ fun MainScreenPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
+    val navigation = getNavController()
+
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
@@ -82,7 +80,7 @@ fun MainScreen() {
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
-        topBar = { MainToolbar() },
+        topBar = { MainToolbar { navigation.navigate(MyScreens.LoginScreen.route) } },
         bottomBar = {
             NavigationBar(
                 modifier = Modifier
@@ -137,7 +135,7 @@ fun MainScreen() {
 }
 
 @Composable
-fun MainToolbar() {
+fun MainToolbar(login: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -146,7 +144,7 @@ fun MainToolbar() {
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        TextButton(onClick = { /*TODO*/ }) {
+        TextButton(onClick = { login.invoke() }) {
             Text(text = "ورود / ثبت نام", style = Typography.bodySmall)
         }
 

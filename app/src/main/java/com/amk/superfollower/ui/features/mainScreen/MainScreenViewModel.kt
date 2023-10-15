@@ -1,4 +1,4 @@
-package com.amk.superfollower.ui.features
+package com.amk.superfollower.ui.features.mainScreen
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
