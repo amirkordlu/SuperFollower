@@ -37,3 +37,11 @@ val Typography = Typography(
     )
 
 )
+
+val textFieldStyle = TextStyle(
+    fontSize = 14.sp,
+    fontFamily = FontFamily(Font(R.font.dana_medium)),
+    fontWeight = FontWeight(400),
+    color = Color(0xFF424242),
+    textAlign = TextAlign.Right,
+)
