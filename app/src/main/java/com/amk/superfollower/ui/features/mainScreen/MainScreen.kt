@@ -14,11 +14,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
@@ -128,7 +132,26 @@ fun MainScreen() {
                     top = it.calculateTopPadding()
                 )
         ) {
-            ServicesList(viewModel.allItemsList.value)
+            LazyRow(
+                contentPadding = PaddingValues(bottom = 8.dp, start = 16.dp)
+            ) {
+                val categories = mutableSetOf<String>()
+
+                items(viewModel.allItemsList.value) { currentItem ->
+                    // If the category has been seen before, it will not be displayed
+                    if (categories.contains(currentItem.category).not()) {
+                        ServicesListCategory(
+                            label = currentItem.category
+                        )
+                        // Adding a category to the set of seen categories
+                        categories.add(currentItem.category)
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+//            ServicesList(viewModel.allItemsList.value)
         }
     }
 
@@ -198,4 +221,19 @@ fun ItemCard(response: ItemsListResponse) {
         }
 
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ServicesListCategory(
+//    selected: MutableState<Boolean>,
+    label: String
+) {
+    FilterChip(
+        modifier = Modifier
+            .padding(end = 10.dp),
+        selected = true,
+        onClick = { },
+        label = { Text(text = label, style = Typography.bodySmall) }
+    )
 }
