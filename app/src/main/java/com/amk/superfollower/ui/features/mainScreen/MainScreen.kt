@@ -125,33 +125,16 @@ fun MainScreen() {
             }
         }
     ) {
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
                     top = it.calculateTopPadding()
                 )
         ) {
-            LazyRow(
-                contentPadding = PaddingValues(bottom = 8.dp, start = 16.dp)
-            ) {
-                val categories = mutableSetOf<String>()
+            CategoryList(viewModel.allItemsList.value)
 
-                items(viewModel.allItemsList.value) { currentItem ->
-                    // If the category has been seen before, it will not be displayed
-                    if (categories.contains(currentItem.category).not()) {
-                        ServicesListCategory(
-                            label = currentItem.category
-                        )
-                        // Adding a category to the set of seen categories
-                        categories.add(currentItem.category)
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-//            ServicesList(viewModel.allItemsList.value)
+            ServicesList(viewModel.allItemsList.value)
         }
     }
 
@@ -185,6 +168,26 @@ fun MainToolbar(login: () -> Unit) {
 }
 
 @Composable
+fun CategoryList(itemsListResponses: List<ItemsListResponse>) {
+    LazyRow(
+        contentPadding = PaddingValues(bottom = 8.dp, start = 16.dp)
+    ) {
+        val categories = mutableSetOf<String>()
+
+        items(itemsListResponses) { currentItem ->
+            // If the category has been seen before, it will not be displayed
+            if (categories.contains(currentItem.category).not()) {
+                ServicesListCategory(
+                    label = currentItem.category
+                )
+                // Adding a category to the set of seen categories
+                categories.add(currentItem.category)
+            }
+        }
+    }
+}
+
+@Composable
 fun ServicesList(services: List<ItemsListResponse>) {
     LazyColumn(
         modifier = Modifier.padding(top = 2.dp, bottom = 10.dp),
@@ -208,16 +211,16 @@ fun ItemCard(response: ItemsListResponse) {
         border = BorderStroke(0.5.dp, Color.White.copy(alpha = 0.70f))
     ) {
 
-        Column(modifier = Modifier.padding(12.dp)) {
-            Text(text = response.name)
+        Column(modifier = Modifier.padding(12.dp), horizontalAlignment = Alignment.End) {
+            Text(text = response.name, style = Typography.bodyMedium)
 
             Spacer(modifier = Modifier.padding(top = 8.dp))
 
-            Text(text = "category: " + response.category)
+            Text(text = "category: " + response.category, style = Typography.bodySmall)
 
             Spacer(modifier = Modifier.padding(top = 8.dp))
 
-            Text(text = response.rate.toString() + "  Toman")
+            Text(text = response.rate.toString() + "  تومان", style = Typography.bodySmall)
         }
 
     }
