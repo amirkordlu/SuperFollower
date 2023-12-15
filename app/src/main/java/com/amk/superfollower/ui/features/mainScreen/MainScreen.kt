@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,11 +13,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +34,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -48,7 +49,10 @@ import com.amk.superfollower.model.data.ItemsListResponse
 import com.amk.superfollower.ui.theme.SuperFollowerTheme
 import com.amk.superfollower.ui.theme.Typography
 import com.amk.superfollower.ui.theme.Yellow
+import com.amk.superfollower.util.AlertDialog
 import com.amk.superfollower.util.MyScreens
+import com.amk.superfollower.util.appendTextDialog
+import com.amk.superfollower.util.convertHTMLToText
 import com.amk.superfollower.util.items
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.navigation.getNavViewModel
@@ -199,8 +203,10 @@ fun ServicesList(services: List<ItemsListResponse>) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemCard(response: ItemsListResponse) {
+    var showDialog by remember { mutableStateOf(false) }
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -208,7 +214,8 @@ fun ItemCard(response: ItemsListResponse) {
             .padding(top = 12.dp, start = 32.dp, end = 32.dp, bottom = 22.dp),
         shape = RoundedCornerShape(24.dp),
         color = Yellow,
-        border = BorderStroke(0.5.dp, Color.White.copy(alpha = 0.70f))
+        border = BorderStroke(0.5.dp, Color.White.copy(alpha = 0.70f)),
+        onClick = { showDialog = true }
     ) {
 
         Column(modifier = Modifier.padding(12.dp), horizontalAlignment = Alignment.End) {
@@ -221,6 +228,16 @@ fun ItemCard(response: ItemsListResponse) {
             Spacer(modifier = Modifier.padding(top = 8.dp))
 
             Text(text = response.rate.toString() + "  تومان", style = Typography.bodySmall)
+        }
+
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
+                onConfirmation = { showDialog = false },
+                dialogTitle = appendTextDialog(convertHTMLToText(response.name)),
+                dialogText = convertHTMLToText(response.desc),
+                icon = Icons.Default.Info
+            )
         }
 
     }
