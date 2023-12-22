@@ -207,6 +207,8 @@ fun ServicesList(services: List<ItemsListResponse>) {
 @Composable
 fun ItemCard(response: ItemsListResponse) {
     var showDialog by remember { mutableStateOf(false) }
+    val navigation = getNavController()
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -233,7 +235,7 @@ fun ItemCard(response: ItemsListResponse) {
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { showDialog = false },
-                onConfirmation = { showDialog = false },
+                onConfirmation = { navigation.navigate(MyScreens.ItemDetailsScreen.route) },
                 dialogTitle = appendTextDialog(convertHTMLToText(response.name)),
                 dialogText = convertHTMLToText(response.desc),
                 icon = Icons.Default.Info

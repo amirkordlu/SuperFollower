@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.amk.superfollower.di.myModules
+import com.amk.superfollower.ui.features.itemDetailsScreen.ItemDetailsScreen
 import com.amk.superfollower.ui.features.loginScreen.LoginScreen
 import com.amk.superfollower.ui.features.mainScreen.MainScreen
 import com.amk.superfollower.ui.features.signupScreen.SignUpScreen
@@ -56,6 +57,10 @@ fun SuperFollowerUI() {
 
         composable(MyScreens.SignUpScreen.route) {
             SignUpScreen()
+        }
+
+        composable(MyScreens.ItemDetailsScreen.route) {
+            ItemDetailsScreen()
         }
 
     }
